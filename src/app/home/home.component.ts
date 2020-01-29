@@ -1,30 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PropertiesService } from '../services/properties.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
   properties = [];
+  propertiesSubscription: Subscription;
 
   constructor(private propertiesService: PropertiesService) { }
 
   ngOnInit() {
-    this.propertiesService.getProperties().subscribe(
+    this.propertiesSubscription = this.propertiesService.propertiesSubject.subscribe(
       (data: any) => {
         this.properties = data;
         // console.log(data);
-      },
-      error => {
-        console.error(error);
-      },
-      () => {
-        console.log('Observable complete');
       }
     );
+    this.propertiesService.emitProperties();
   }
 
   getSoldValue(i) {
@@ -33,6 +30,10 @@ export class HomeComponent implements OnInit {
     } else {
       return 'green';
     }
+  }
+
+  ngOnDestroy() {
+    this.propertiesSubscription.unsubscribe();
   }
 
 }
