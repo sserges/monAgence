@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PropertiesService } from '../services/properties.service';
 
 @Component({
   selector: 'app-home',
@@ -7,27 +8,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  properties = [
-    {
-      title: 'Ma super maison',
-      category: 'Maison',
-      sold: true
-    },
-    {
-      title: 'Petit appartement',
-      category: 'Appartement',
-      sold: false
-    },
-    {
-      title: 'Belle villa',
-      category: 'Maison',
-      sold: true
-    }
-  ];
+  properties = [];
 
-  constructor() { }
+  constructor(private propertiesService: PropertiesService) { }
 
   ngOnInit() {
+    this.propertiesService.getProperties().then(
+      (data: any) => {
+        this.properties = data;
+        // console.log(data);
+      }
+    ).catch(
+      error => {
+        console.log(error);
+      }
+    );
   }
 
   getSoldValue(i) {

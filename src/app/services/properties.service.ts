@@ -1,0 +1,40 @@
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class PropertiesService {
+
+  properties = [
+    {
+      title: 'Ma super maison',
+      category: 'Maison',
+      sold: true
+    },
+    {
+      title: 'Petit appartement',
+      category: 'Appartement',
+      sold: false
+    },
+    {
+      title: 'Belle villa',
+      category: 'Maison',
+      sold: true
+    }
+  ];
+
+  constructor() { }
+
+  getProperties() {
+    return new Promise(
+      (resolve, reject) => {
+        if (this.properties && this.properties.length > 0) {
+          resolve(this.properties);
+        } else {
+          const error = new Error('Properties does not exist or is empty');
+          reject(error);
+        }
+      }
+    );
+  }
+}
