@@ -16,6 +16,7 @@ export class AdminPropertiesComponent implements OnInit {
   propertiesForm: FormGroup;
   propertiesSubscription: Subscription;
   properties: any[] = [];
+  indexToRemove;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -52,6 +53,16 @@ export class AdminPropertiesComponent implements OnInit {
 
   resetForm() {
     this.propertiesForm.reset();
+  }
+
+  onDeleteProperty(index) {
+    $('#deletePropertyModal').modal('show');
+    this.indexToRemove = index;
+  }
+
+  onConfirmDeleteProperty() {
+    this.propertiesService.deleteProperty(this.indexToRemove);
+    $('#deletePropertyModal').modal('hide');
   }
 
 }
