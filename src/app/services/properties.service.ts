@@ -10,7 +10,8 @@ export class PropertiesService {
     {
       title: 'Ma super maison',
       category: 'Maison',
-      sold: true
+      sold: true,
+      surface: 75
     },
     {
       title: 'Petit appartement',
