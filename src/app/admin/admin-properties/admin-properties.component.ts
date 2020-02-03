@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import * as $ from 'jquery';
 
 import { PropertiesService } from 'src/app/services/properties.service';
+import { Property } from 'src/app/interfaces/property';
 
 
 @Component({
@@ -15,7 +16,7 @@ export class AdminPropertiesComponent implements OnInit {
 
   propertiesForm: FormGroup;
   propertiesSubscription: Subscription;
-  properties: any[] = [];
+  properties: Property[] = [];
   indexToRemove;
   indexToUpdate;
   editMode = false;
@@ -28,7 +29,7 @@ export class AdminPropertiesComponent implements OnInit {
   ngOnInit() {
     this.initPropertiesForm();
     this.propertiesSubscription = this.propertiesService.propertiesSubject.subscribe(
-      data => {
+      (data: Property[]) => {
         this.properties = data;
       }
     );
@@ -43,12 +44,13 @@ export class AdminPropertiesComponent implements OnInit {
       surface: ['', Validators.required],
       rooms: ['', Validators.required],
       description: '',
-      price: ['', Validators.required]
+      price: ['', Validators.required],
+      sold: ''
     });
   }
 
   onSubmitPropertiesForm() {
-    const newProperty = this.propertiesForm.value;
+    const newProperty: Property = this.propertiesForm.value;
     if (this.editMode) {
       this.propertiesService.updateProperty(newProperty, this.indexToUpdate);
     } else {
@@ -72,7 +74,7 @@ export class AdminPropertiesComponent implements OnInit {
     $('#deletePropertyModal').modal('hide');
   }
 
-  onEditProperty(property) {
+  onEditProperty(property: Property) {
     this.editMode = true;
     $('#propertiesFormModal').modal('show');
 
@@ -82,6 +84,7 @@ export class AdminPropertiesComponent implements OnInit {
     this.propertiesForm.get('rooms').setValue(property.rooms);
     this.propertiesForm.get('description').setValue(property.description);
     this.propertiesForm.get('price').setValue(property.price);
+    this.propertiesForm.get('sold').setValue(property.sold);
     const index = this.properties.findIndex(
       (propertyEl) => {
         if (propertyEl === property) {

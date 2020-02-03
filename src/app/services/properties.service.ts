@@ -1,31 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
+import { Property } from '../interfaces/property';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PropertiesService {
 
-  properties = [
-    {
-      title: 'Ma super maison',
-      category: 'Maison',
-      sold: true,
-      surface: 75
-    },
-    {
-      title: 'Petit appartement',
-      category: 'Appartement',
-      sold: false
-    },
-    {
-      title: 'Belle villa',
-      category: 'Maison',
-      sold: true
-    }
-  ];
+  properties: Property[] = [];
 
-  propertiesSubject = new Subject<any[]>();
+  propertiesSubject = new Subject<Property[]>();
 
   constructor() { }
 
@@ -36,7 +20,7 @@ export class PropertiesService {
   getProperties() {
   }
 
-  createProperty(property) {
+  createProperty(property: Property) {
     this.properties.push(property);
   }
 
@@ -44,7 +28,7 @@ export class PropertiesService {
     this.properties.splice(index, 1);
   }
 
-  updateProperty(property, index) {
+  updateProperty(property: Property, index) {
     this.properties[index] = property;
   }
 }
