@@ -43,4 +43,8 @@ export class PropertiesService {
   deleteProperty(index) {
     this.properties.splice(index, 1);
   }
+
+  updateProperty(property, index) {
+    this.properties[index] = property;
+  }
 }
