@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signin',
@@ -13,7 +14,8 @@ export class SigninComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -30,9 +32,9 @@ export class SigninComponent implements OnInit {
   onSubmitSigninForm() {
     const email = this.signinForm.get('email').value;
     const password = this.signinForm.get('password').value;
-    this.authenticationService.signUpUser(email, password).then(
-      () => {
-        console.log('OKEY');
+    this.authenticationService.signInUser(email, password).then(
+      (data) => {
+        this.router.navigate(['/admin', 'dashboard']);
       }
     ).catch(
       (error) => {
