@@ -19,7 +19,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     firebase.auth().onAuthStateChanged(
       (userSession) => {
-        console.log('userSession:', userSession);
+        // console.log('userSession:', userSession);
         if (userSession) {
          this.isLoggedIn = true;
         } else {
